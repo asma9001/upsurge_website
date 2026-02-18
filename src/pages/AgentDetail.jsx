@@ -132,7 +132,7 @@ const AgentDetail = () => {
                                 </a>
 
                                 <a
-                                    href={`tel:${agent.cell}`}
+                                    href={`tel:${agent.phone}`}
                                     className="flex items-center gap-2 px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium"
                                 >
                                     <img

@@ -3,7 +3,7 @@ import { assets } from "../assets/assets";
 
 const LocalExpert = () => {
   const phoneNumber = "9803755150"; // Agent phone
-  const emailAddress = "helen@upsurgerealty.com"; // Agent email
+  const emailAddress = "Helen@upsergerealty.com"; // Agent email
 
   return (
     <section className="w-full px-6 py-10 md:px-16 bg-white">

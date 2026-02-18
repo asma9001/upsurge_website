@@ -8,7 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const location = useLocation(); // get current route
-const navigate = useNavigate();
+    const navigate = useNavigate();
     const navItems = [
         { name: "Search", path: "/" },
         { name: "Sell", path: "/sell" },
@@ -20,18 +20,19 @@ const navigate = useNavigate();
     return (
         <header className="relative w-full z-50">
 
-       
+
 
             {/* MAIN NAVBAR */}
             <div className="bg-white shadow-sm">
                 <div className="container mx-auto flex items-center px-6 py-3 md:px-20 lg:px-40">
 
-                   <div className="flex items-center gap-2">
-                        <img src="/logo.png" alt="Logo" className="w-15 h-15" />
-                        <h1 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#76411E] to-[#FAB28D]">
-                            UPSURGE REALTY
-                        </h1>
-                    </div>
+                 <Link to="/" className="flex items-center gap-2 cursor-pointer">
+  <img src="/logo.png" alt="Logo" className="w-15 h-15" />
+  <h1 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#76411E] to-[#FAB28D]">
+    UPSURGE REALTY
+  </h1>
+</Link>
+
 
                     {/* Desktop Menu */}
                     <ul className="ml-auto hidden md:flex items-center gap-8 text-sm font-medium">
@@ -49,7 +50,11 @@ const navigate = useNavigate();
                     </ul>
 
                     <div className="ml-6 hidden md:block">
-                        <Button text="Login" className="px-5 py-2" />
+                        <Button
+                            text="Login"
+                            className="px-5 py-2 cursor-pointer"
+                            onClick={() => navigate("/login")}
+                        />
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -86,11 +91,11 @@ const navigate = useNavigate();
                                 </Link>
                             </li>
                         ))}
-                       <Button
-  text="Login"
-  className="px-5 py-2"
-  onClick={() => navigate("/login")}
-/>
+                        <Button
+                            text="Login"
+                            className="px-5 py-2 cursor-pointer"
+                            onClick={() => navigate("/login")}
+                        />
 
                     </ul>
                 </div>

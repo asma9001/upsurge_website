@@ -47,19 +47,27 @@ const FilterBar = () => {
   const [type, setType] = useState("");
   const [advance, setAdvance] = useState("");
 
-  const handleSearch = () => {
-    // Pass selected values as query params
-    const params = new URLSearchParams();
-    if (status) params.append("status", status);
-    if (label) params.append("label", label);
-    if (type) params.append("type", type);
-    if (advance) params.append("advance", advance);
+const handleSearch = () => {
+  // Check if any dropdown is empty
+  if (!status || !label || !type || !advance) {
+    alert("Please select all fields before searching.");
+    return; // Prevent navigation
+  }
 
-    navigate(`/listing?${params.toString()}`);
-  };
+  // Pass selected values as query params
+  const params = new URLSearchParams();
+  params.append("status", status);
+  params.append("label", label);
+  params.append("type", type);
+  params.append("advance", advance);
+
+  navigate(`/listing?${params.toString()}`);
+};
+
+
 
   return (
-  <div className="w-full  rounded-2xl shadow-xl flex flex-col justify-center bg-white overflow-hidden">
+  <div className="w-full  rounded-2xl shadow-xl flex flex-col justify-center bg-white ">
 
       <button
         className=" text-left gap-2 bg-white border-b border-[#F4F4F4] text-[#030E0F] px-6 py-3  font-medium "
