@@ -31,20 +31,25 @@ const PropertyCard = ({ property }) => (
             <h3 className="text-sm font-semibold text-[#030E0F]">{property.title}</h3>
             <p className="text-sm text-[#252728]">{property.city}</p>
 
-            <div className="flex  gap-2 mt-2">
-                <div className="flex items-center gap-2 border px-3 py-1 rounded-xl text-sm">
+
+
+                {/* Meta */}
+                <div className="flex flex-wrap gap-3 mt-3">
+                  <div className="flex items-center gap-2 border px-3 py-1 rounded-xl text-sm">
                     <img src="/bed1.svg.svg" className="w-4 h-4" />
-                    x{property.bedrooms || "-"}
-                </div>
-                <div className="flex items-center gap-2 border px-3 py-1 rounded-xl text-sm">
+                    {property.bedrooms || "-"}
+                  </div>
+                  <div className="flex items-center gap-2 border px-3 py-1 rounded-xl text-sm">
                     <img src="/bath1.svg.svg" className="w-4 h-4" />
-                    x{property.bathrooms || "-"}
-                </div>
-                <div className="flex items-center gap-1 border px-4 py-1 rounded-xl text-sm">
+                    {property.bathrooms || "-"}
+                  </div>
+                  <div className="flex items-center gap-2 border px-3 py-1 rounded-xl text-sm">
                     <img src="/sqare1.svg.svg" className="w-4 h-4" />
-                    {property.sqft || "-"}sq
+                    {property.sqft || "-"}
+                  </div>
                 </div>
-            </div>
+
+              
 
             <hr className="my-2 border-[#0D0F181A]" />
 
@@ -155,7 +160,7 @@ const SearchPage = () => {
           <span className="text-sm font-medium text-[#4B5563]">Back to Home</span>
         </div>
       </div>
-      <div className="container mx-auto px-6 py-10 max-w-6xl">
+      <div className="container mx-auto px-6 py-10 max-w-7xl">
         <h2 className="font-bold text-xl mb-6">
           {loading ? "Loading..." : `${properties.length} Properties Found`}
         </h2>

@@ -96,7 +96,7 @@ const handleSearch = () => {
         {/* Types */}
         <div className="flex flex-col lg:flex-1 px-2">
           <span className="text-sm text-left font-medium mb-1">Types</span>
-          <Dropdown label="All Types" options={["House", "Apartments", "Villas"]} value={type} onChange={setType} />
+          <Dropdown label="All Types" options={["Houses", "Apartments", "Villas"]} value={type} onChange={setType} />
         </div>
 
         <span className="hidden lg:block h-12 w-px bg-[#F4F4F4]" />
