@@ -8,7 +8,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 const PropertyCard = ({ property }) => (
     <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
         <div
-            className="h-[200px] sm:h-[240px] bg-cover bg-center p-4 flex justify-between items-start"
+            className="h-[200px] sm:h-[200px] bg-cover bg-center p-4 flex justify-between items-start"
             style={{ backgroundImage: `url(${property.images})` }}
         >
             <div className="flex gap-2">
@@ -27,25 +27,25 @@ const PropertyCard = ({ property }) => (
             </div>
         </div>
 
-        <div className="px-5 py-4 flex flex-col gap-2">
+        <div className="px-4 py-4 flex flex-col gap-2">
             <h3 className="text-sm font-semibold text-[#030E0F]">{property.title}</h3>
             <p className="text-sm text-[#252728]">{property.city}</p>
 
 
 
                 {/* Meta */}
-                <div className="flex flex-wrap gap-3 mt-3">
-                  <div className="flex items-center gap-2 border px-3 py-1 rounded-xl text-sm">
+                <div className="flex  gap-2 mt-2">
+                  <div className="flex items-center gap-1 border px-3 py-1 rounded-xl text-sm">
                     <img src="/bed1.svg.svg" className="w-4 h-4" />
-                    {property.bedrooms || "-"}
+                    x{property.bedrooms || "-"}
                   </div>
-                  <div className="flex items-center gap-2 border px-3 py-1 rounded-xl text-sm">
+                  <div className="flex items-center gap-1 border px-3 py-1 rounded-xl text-sm">
                     <img src="/bath1.svg.svg" className="w-4 h-4" />
-                    {property.bathrooms || "-"}
+                    x{property.bathrooms || "-"}
                   </div>
-                  <div className="flex items-center gap-2 border px-3 py-1 rounded-xl text-sm">
+                  <div className="flex items-center gap-1 border px-3 py-1 rounded-xl text-sm">
                     <img src="/sqare1.svg.svg" className="w-4 h-4" />
-                    {property.sqft || "-"}
+                    {property.sqft || "-"}sq
                   </div>
                 </div>
 
@@ -160,14 +160,14 @@ const SearchPage = () => {
           <span className="text-sm font-medium text-[#4B5563]">Back to Home</span>
         </div>
       </div>
-      <div className="container mx-auto px-6 py-10 max-w-7xl">
+      <div className="container mx-auto px-6 py-10 max-w-6xl">
         <h2 className="font-bold text-xl mb-6">
           {loading ? "Loading..." : `${properties.length} Properties Found`}
         </h2>
 
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar Filters */}
-          <div className="w-full lg:w-1/4 bg-white border rounded-xl p-4 space-y-4 shadow-sm">
+          <div className="w-full lg:w-1/4 bg-white border border-[#F3F4F6] rounded-xl p-4 space-y-4 shadow-sm">
             <h3 className="font-semibold text-gray-700 mb-2">Refine Search</h3>
             {/* Price */}
             <div>
