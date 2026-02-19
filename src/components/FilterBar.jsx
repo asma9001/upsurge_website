@@ -66,25 +66,25 @@ const FilterBar = () => {
     location.pathname.startsWith("/agents/") ||
     location.pathname.startsWith("/location/") || location.pathname.startsWith("/listing");
 
-const handleSearch = (isAdvanced = false) => {
-  const advance = JSON.stringify(filters);
+  const handleSearch = (isAdvanced = false) => {
+    const advance = JSON.stringify(filters);
 
-  // Only validate basic fields if NOT advanced search
-  if (!isAdvanced && (!status || !label || !type)) {
-    alert("Please select all fields before searching.");
-    return;
-  }
+    // Only validate basic fields if NOT advanced search
+    if (!isAdvanced && (!status || !label || !type)) {
+      alert("Please select all fields before searching.");
+      return;
+    }
 
-  const params = new URLSearchParams();
+    const params = new URLSearchParams();
 
-  if (status) params.append("status", status);
-  if (label) params.append("label", label);
-  if (type) params.append("type", type);
+    if (status) params.append("status", status);
+    if (label) params.append("label", label);
+    if (type) params.append("type", type);
 
-  params.append("advance", advance);
+    params.append("advance", advance);
 
-  navigate(`/listing?${params.toString()}`);
-};
+    navigate(`/listing?${params.toString()}`);
+  };
 
 
 
@@ -167,13 +167,15 @@ const handleSearch = (isAdvanced = false) => {
       {/* ---------------- ADVANCED MODAL ---------------- */}
       {showAdvanced && (
         <div
-          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4 sm:px-6"
           onClick={() => setShowAdvanced(false)}
         >
           <div
-            className="bg-white w-full max-w-xl rounded-2xl p-8 shadow-2xl"
+            className="bg-white w-full max-w-xl rounded-2xl p-5 sm:p-8 shadow-2xl 
+                 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
+
             {/* Location */}
             <div className="mb-4">
               <h3 className="text-sm font-semibold mb-2 text-left">
@@ -191,7 +193,8 @@ const handleSearch = (isAdvanced = false) => {
             </div>
 
             {/* Price & Size */}
-            <div className="grid grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+
               <div>
                 <h3 className="text-sm font-semibold mb-2 text-left">
                   Price Range
@@ -228,7 +231,8 @@ const handleSearch = (isAdvanced = false) => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-6 mb-6">  {/* Bedrooms */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+              {/* Bedrooms */}
               <div className="mb-4">
                 <h3 className="text-sm font-semibold mb-2 text-left">
                   Bedrooms
@@ -281,21 +285,16 @@ const handleSearch = (isAdvanced = false) => {
 
             {/* Buttons */}
             <div className="flex justify-end gap-4">
+             
               <button
-                onClick={resetFilters}
-                className="text-gray-500 font-medium"
+                onClick={() => {
+                  setShowAdvanced(false);
+                  handleSearch(true); // 🔥 pass true
+                }}
+                className="bg-[#5856D6] text-white px-6 py-3 rounded-lg font-medium"
               >
-                Reset Filters
+                Apply Filters
               </button>
-             <button
-  onClick={() => {
-    setShowAdvanced(false);
-    handleSearch(true); // 🔥 pass true
-  }}
-  className="bg-[#5856D6] text-white px-6 py-3 rounded-lg font-medium"
->
-  Apply Filters
-</button>
 
 
             </div>
