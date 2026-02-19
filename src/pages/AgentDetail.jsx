@@ -13,7 +13,7 @@ import {
 import Testimonials from "../components/Testimonials";
 import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const AgentDetail = () => {
     const { id } = useParams();
@@ -21,6 +21,7 @@ const AgentDetail = () => {
 
     const [agent, setAgent] = useState(state?.agent || null);
     const [loading, setLoading] = useState(!state?.agent);
+    const contactRef = useRef(null);
 
     // ✅ If page refresh → fetch agent
     useEffect(() => {
@@ -50,6 +51,13 @@ const AgentDetail = () => {
             </div>
         );
     }
+    useEffect(() => {
+        if (state?.scrollToContact && contactRef.current) {
+            setTimeout(() => {
+                contactRef.current.scrollIntoView({ behavior: "smooth" });
+            }, 300);
+        }
+    }, [state]);
 
     if (!agent) {
         return <p className="text-center mt-20">Agent not found</p>;
@@ -70,8 +78,8 @@ const AgentDetail = () => {
                                 alt={agent.full_name}
                                 className="rounded-xl w-full h-[240px] sm:h-[280px] lg:h-[310px] object-cover"
                             />
-                             {/* Rating overlay */}
-                           <div className="absolute bottom-4 left-4 text-white px-3 py-2 rounded-lg flex flex-col bg-black/40 backdrop-blur-sm">
+                            {/* Rating overlay */}
+                            <div className="absolute bottom-4 left-4 text-white px-3 py-2 rounded-lg flex flex-col bg-black/40 backdrop-blur-sm">
 
                                 {/* Stars row */}
                                 <div className="flex gap-2">
@@ -181,7 +189,7 @@ const AgentDetail = () => {
                     </div>
                 </div>
             </div>
-  <div className="bg-[#F9FAFB]"> <div className="max-w-6xl grid grid-cols-2 md:grid-cols-4 gap-4 container mx-auto px-4 sm:px-5 py-11">
+            <div className="bg-[#F9FAFB]"> <div className="max-w-6xl grid grid-cols-2 md:grid-cols-4 gap-4 container mx-auto px-4 sm:px-5 py-11">
 
                 <h2 className="col-span-2 md:col-span-4 text-xl font-bold text-[#0F172A] mb-2">Areas of Expertise</h2>
                 <div className="bg-white border border-[#E5E7EB] shadow-md rounded-lg py-4  flex flex-col px-5 gap-1">
@@ -206,7 +214,10 @@ const AgentDetail = () => {
             </div>
             </div>
             <Testimonials />
-            <ContactSection />
+            <div ref={contactRef}>
+                <ContactSection agent={agent} />
+            </div>
+
             <Footer />
         </>
     );

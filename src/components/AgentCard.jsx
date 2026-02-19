@@ -4,13 +4,24 @@ import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 
 const AgentCard = ({ agent }) => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const goToProfile = () => {
     navigate(`/agents/${agent.id}`, {
-      state: { agent },   
+      state: { agent },
     });
   };
+  const handleContactClick = () => {
+    navigate(`/agents/${agent.id}`, {
+      state: { agent, scrollToContact: true },
+    });
+  };
+  const handleListingsClick = () => {
+    navigate(`/agents/${agent.id}/properties`, {
+      state: { agent },
+    });
+  };
+
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] overflow-hidden flex flex-col">
@@ -86,8 +97,14 @@ const AgentCard = ({ agent }) => {
 
         {/* Buttons */}
         <div className="mt-auto flex gap-3 pt-4">
-          <Button text="Contact" className="flex-1 text-white !font-medium !py-2 !px-5 text-sm transition" />
-          <Button text="Listings" className="flex-1 !border !py-2 !border-[#E5E7EB] !text-[#334155] !bg-white !px-5 text-sm" />
+          <Button onClick={handleContactClick}
+            text="Contact" className="flex-1 text-white !font-medium !py-2 !px-5 text-sm transition" />
+          <Button
+            onClick={handleListingsClick}
+            text="Listings"
+            className="flex-1 !border !py-2 !border-[#E5E7EB] !text-[#334155] !bg-white !px-5 text-sm"
+          />
+
         </div>
       </div>
     </div>

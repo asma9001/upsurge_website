@@ -48,6 +48,8 @@ import calendar from "./calendar.svg"
 import star_icon from './Star.svg'
 import client_icon from './clients.svg'
 import graduation from "./graduation.svg"
+import message from "./message.svg"
+
 // import blog1 from './blog1.png'
 // import blog2 from './blog2.png'
 // import blog3 from './blog3.png'
@@ -92,6 +94,8 @@ export const assets = {
     star_icon,
     client_icon,
     graduation,
+    message,
+
 
 
 }

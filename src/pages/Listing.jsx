@@ -5,60 +5,61 @@ import Footer from "../components/Footer";
 import Button from "../components/Button";
 import { supabase } from "../config/supabaseClient";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import FilterBar from "../components/FilterBar";
 const PropertyCard = ({ property }) => (
-    <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
-        <div
-            className="h-[200px] sm:h-[200px] bg-cover bg-center p-4 flex justify-between items-start"
-            style={{ backgroundImage: `url(${property.images})` }}
-        >
-            <div className="flex gap-2">
-                {property.featured && (
-                    <Button
-                        text="Featured"
-                        className="bg-white !text-[#030E0F] text-xs !px-4 !py-1 rounded"
-                    />
-                )}
-                {property.category && (
-                    <Button
-                        text={property.category}
-                        className="bg-white !text-[#030E0F] text-xs !px-4 !py-1 rounded"
-                    />
-                )}
-            </div>
-        </div>
-
-        <div className="px-4 py-4 flex flex-col gap-2">
-            <h3 className="text-sm font-semibold text-[#030E0F]">{property.title}</h3>
-            <p className="text-sm text-[#252728]">{property.city}</p>
-
-
-
-                {/* Meta */}
-                <div className="flex  gap-2 mt-2">
-                  <div className="flex items-center gap-1 border px-3 py-1 rounded-xl text-sm">
-                    <img src="/bed1.svg.svg" className="w-4 h-4" />
-                    x{property.bedrooms || "-"}
-                  </div>
-                  <div className="flex items-center gap-1 border px-3 py-1 rounded-xl text-sm">
-                    <img src="/bath1.svg.svg" className="w-4 h-4" />
-                    x{property.bathrooms || "-"}
-                  </div>
-                  <div className="flex items-center gap-1 border px-3 py-1 rounded-xl text-sm">
-                    <img src="/sqare1.svg.svg" className="w-4 h-4" />
-                    {property.sqft || "-"}sq
-                  </div>
-                </div>
-
-              
-
-            <hr className="my-2 border-[#0D0F181A]" />
-
-            <Button
-                text={`$${Number(property.price).toLocaleString()}`}
-                className="bg-[#030E0F] text-white !px-6 !py-2 rounded-lg w-fit"
-            />
-        </div>
+  <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+    <div
+      className="h-[200px] sm:h-[200px] bg-cover bg-center p-4 flex justify-between items-start"
+      style={{ backgroundImage: `url(${property.images?.[0] || '/default-image.jpg'})` }}
+    >
+      <div className="flex gap-2">
+        {property.featured && (
+          <Button
+            text="Featured"
+            className="bg-white !text-[#030E0F] text-xs !px-4 !py-1 rounded"
+          />
+        )}
+        {property.category && (
+          <Button
+            text={property.category}
+            className="bg-white !text-[#030E0F] text-xs !px-4 !py-1 rounded"
+          />
+        )}
+      </div>
     </div>
+
+    <div className="px-4 py-4 flex flex-col gap-2">
+      <h3 className="text-sm font-semibold text-[#030E0F]">{property.title}</h3>
+      <p className="text-sm text-[#252728]">{property.city}</p>
+
+
+
+      {/* Meta */}
+      <div className="flex  gap-2 mt-2">
+        <div className="flex items-center gap-1 border px-3 py-1 rounded-xl text-sm">
+          <img src="/bed1.svg.svg" className="w-4 h-4" />
+          x{property.bedrooms || "-"}
+        </div>
+        <div className="flex items-center gap-1 border px-3 py-1 rounded-xl text-sm">
+          <img src="/bath1.svg.svg" className="w-4 h-4" />
+          x{property.bathrooms || "-"}
+        </div>
+        <div className="flex items-center gap-1 border px-3 py-1 rounded-xl text-sm">
+          <img src="/sqare1.svg.svg" className="w-4 h-4" />
+          {property.sqft || "-"}sq
+        </div>
+      </div>
+
+
+
+      <hr className="my-2 border-[#0D0F181A]" />
+
+      <Button
+        text={`$${Number(property.price).toLocaleString()}`}
+        className="bg-[#030E0F] text-white !px-6 !py-2 rounded-lg w-fit"
+      />
+    </div>
+  </div>
 );
 const SearchPage = () => {
   const [filters, setFilters] = useState({
@@ -74,22 +75,56 @@ const SearchPage = () => {
 
   const [searchParams] = useSearchParams(); // <--- get query params
   const navigate = useNavigate();
+  const advance = searchParams.get("advance"); // Sorting
 
-  // Fetch properties based on URL query params
+  let advancedFilters = {};
+  if (advance) {
+    try {
+      advancedFilters = JSON.parse(advance);
+    } catch (e) {
+      console.error("Failed to parse advanced filters:", e);
+    }
+  }
+
   const fetchPropertiesByParams = async () => {
     try {
       setLoading(true);
       let query = supabase.from("properties").select("*");
 
       const type = searchParams.get("type");       // Villas, House, etc
-      const advance = searchParams.get("advance"); // Sorting
 
-      if (type) query = query.eq("category", type);
+   if (type) query = query.ilike("category", `%${type}%`);
 
-      // Sorting
-      if (advance === "Price: Low to High") query = query.order("price", { ascending: true });
-      else if (advance === "Price: High to Low") query = query.order("price", { ascending: false });
-      else if (advance === "Newest First") query = query.order("created_at", { ascending: false });
+
+      // Apply advanced filters from URL
+      if (advancedFilters.location) {
+        query = query.ilike("city", `%${advancedFilters.location}%`);
+      }
+
+ if (advancedFilters.minPrice && !isNaN(Number(advancedFilters.minPrice))) {
+  query = query.gte("price", Number(advancedFilters.minPrice));
+}
+
+if (advancedFilters.maxPrice && !isNaN(Number(advancedFilters.maxPrice))) {
+  query = query.lte("price", Number(advancedFilters.maxPrice));
+}
+
+
+      if (advancedFilters.minSize) query = query.gte("sqft", Number(advancedFilters.minSize));
+      if (advancedFilters.maxSize) query = query.lte("sqft", Number(advancedFilters.maxSize));
+
+      if (advancedFilters.bedrooms && advancedFilters.bedrooms !== "Any") {
+        if (advancedFilters.bedrooms === "4+") query = query.gte("bedrooms", 4);
+        else query = query.eq("bedrooms", Number(advancedFilters.bedrooms));
+      }
+
+      if (advancedFilters.bathrooms && advancedFilters.bathrooms !== "Any") {
+        if (advancedFilters.bathrooms === "4+") query = query.gte("bathrooms", 4);
+        else query = query.eq("bathrooms", Number(advancedFilters.bathrooms));
+      }
+
+      // You can also add amenities filter here if needed
+      // e.g., advancedFilters.amenities is an array
 
       const { data, error } = await query;
       if (error) throw error;
@@ -102,6 +137,7 @@ const SearchPage = () => {
     }
   };
 
+console.log("Advanced filters from URL:", properties);
   // Fetch properties based on sidebar filters
   const fetchProperties = async () => {
     try {
@@ -151,13 +187,19 @@ const SearchPage = () => {
   return (
     <>
       <Navbar />
-      <div className="border-b border-gray-200 py-4">
-        <div
-          onClick={() => navigate("/")}
-          className="max-w-6xl mx-auto flex items-center gap-2 px-4 sm:px-6 cursor-pointer"
-        >
-          <IoIosArrowRoundBack className="text-2xl text-gray-700" />
-          <span className="text-sm font-medium text-[#4B5563]">Back to Home</span>
+      <div className=" py-4">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row  justify-between gap-6 px-4 sm:px-6">
+          <div
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 cursor-pointer"
+          >
+            <IoIosArrowRoundBack className="text-2xl text-gray-700" />
+            <span className="text-sm font-bold text-[#4B5563]">Back to Home</span>
+          </div>
+
+          <div className="w-full md:w-auto flex md:flex-1 justify-start md:justify-end mt-4 md:mt-0">
+            <FilterBar />
+          </div>
         </div>
       </div>
       <div className="container mx-auto px-6 py-10 max-w-6xl">

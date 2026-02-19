@@ -16,7 +16,7 @@ const Header = () => {
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="container mt-12 mx-auto text-center px-6 py-4 md:px-20 lg:px-32"
+        className="container  mx-auto text-center px-6 py-4 md:px-20 lg:px-32"
       >
         {/* Badge */}
         <h3 className="inline-block text-sm sm:text-base md:text-xl opacity-90 px-4 sm:px-6 py-2 sm:py-3 mb-4 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md text-white">

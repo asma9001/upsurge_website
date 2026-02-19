@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
+import { useNavigate } from "react-router-dom";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -8,35 +9,17 @@ import "swiper/css/navigation";
 import { locations } from "../assets/assets";
 import Button from "./Button";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-const CustomPrev = ({ onClick }) => (
-  <button
-    onClick={onClick}
-    className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-[#5856D6] shadow flex items-center justify-center text-white transition hover:bg-[#4b46c0]"
-  >
-    <FiChevronLeft size={24} />
-  </button>
-);
+
 const Location = () => {
-
-
-
-
-  const CustomNext = ({ onClick }) => (
-    <button
-      onClick={onClick}
-      className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-[#5856D6] shadow flex items-center justify-center text-white transition hover:bg-[#4b46c0]"
-    >
-      <FiChevronRight size={24} />
-    </button>
-  );
-
   const swiperRef = useRef(null);
+  const navigate = useNavigate();
 
   const goPrev = () => swiperRef.current?.slidePrev();
   const goNext = () => swiperRef.current?.slideNext();
 
   return (
-    <section className="px-4 sm:px-6 py-10 max-w-5xl mx-auto relative overflow-visible">
+    <section className="px-4 sm:px-6 py-10 max-w-5xl mx-auto relative cursor-pointer overflow-visible">
+      
       {/* Heading */}
       <div className="flex flex-col items-center text-center px-4 sm:px-6 md:px-20 lg:px-32 mb-12">
         <h3 className="text-[#5856D6] text-sm sm:text-md mb-3 font-medium bg-[#B88D74]/10 px-3 py-1 rounded-md">
@@ -47,22 +30,20 @@ const Location = () => {
         </h2>
       </div>
 
-      {/* Custom Arrows */}
-     <button
-  onClick={goPrev}
-  className="absolute -left-7 top-[65%]  z-20 w-10 h-10 rounded-full bg-[#5856D6] shadow hidden md:flex items-center justify-center text-white transition -translate-y-1/2"
->
-  <FiChevronLeft size={20} />
-</button>
+      {/* Arrows */}
+      <button
+        onClick={goPrev}
+        className="absolute -left-7 top-[65%] z-20 w-10 h-10 rounded-full bg-[#5856D6] shadow hidden md:flex items-center justify-center text-white -translate-y-1/2"
+      >
+        <FiChevronLeft size={20} />
+      </button>
 
-<button
-  onClick={goNext}
-  className="absolute -right-7 top-[65%]  z-20 w-10 h-10 rounded-full bg-[#5856D6] shadow hidden md:flex items-center justify-center text-white transition -translate-y-1/2"
->
-  <FiChevronRight size={20} />
-</button>
-
-
+      <button
+        onClick={goNext}
+        className="absolute -right-7 top-[65%] z-20 w-10 h-10 rounded-full bg-[#5856D6] shadow hidden md:flex items-center justify-center text-white -translate-y-1/2"
+      >
+        <FiChevronRight size={20} />
+      </button>
 
       {/* Swiper */}
       <Swiper
@@ -71,7 +52,7 @@ const Location = () => {
         spaceBetween={16}
         slidesPerView={4}
         autoplay={{
-          delay: 3000,  // 0.5 second for fast testing
+          delay: 3000,
           disableOnInteraction: false,
         }}
         breakpoints={{
@@ -85,7 +66,14 @@ const Location = () => {
       >
         {locations.map((item) => (
           <SwiperSlide key={item.id}>
-            <div className="relative rounded-2xl overflow-hidden group shadow-lg">
+            <div
+              onClick={() =>
+                navigate(`/location/${item.name.toLowerCase()}`, {
+                  state: { location: item },
+                })
+              }
+              className="relative rounded-2xl overflow-hidden group shadow-lg cursor-pointer"
+            >
               <img
                 src={item.image}
                 alt={item.name}

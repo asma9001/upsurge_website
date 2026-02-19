@@ -11,6 +11,10 @@ import About from './pages/About'
 import SearchPage from './pages/Listing'
 import LoginPage from './pages/Login'
 import RegisterPage from './pages/Register'
+import PropertyDetail from './pages/PropertyDetail'
+import AllProperties from './pages/AllProperties'
+import AgentProperties from './components/AgentProperties'
+import LocationProperties from './components/LocationProperties'
 
 const App = () => {
   return (
@@ -27,6 +31,12 @@ const App = () => {
         <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/listing" element={<SearchPage />} />
+        <Route path="/property/:id" element={<PropertyDetail />} />
+        <Route path="/properties" element={<AllProperties />} />
+        <Route path="/agents/:id/properties" element={<AgentProperties />} />
+
+<Route path="/location/:name" element={<LocationProperties />} />
+
       </Routes>
     </Router>
   )
